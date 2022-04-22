@@ -11,20 +11,6 @@ import (
 
 // --------------------- ReaderLogic.go --------------------- //
 
-// Read a line from Scanner
-func (rd *Reader) ReadLine() string {
-
-	if rd.Scanner == nil {
-		rd.ScanFromStandardInput()
-	}
-
-	rd.Scanner.Scan()
-	line := rd.Scanner.Text()
-
-	line = strings.TrimSpace(line)
-	return line
-}
-
 // Read a list of strings separated by sep
 func (rd *Reader) ReadArray(sep string) []string {
 	S := rd.ReadLine()
@@ -207,7 +193,8 @@ func (wr *Writer) LogLine(Obj interface{}) {
 // --------------------- CP Adapter --------------------- //
 
 type Reader struct {
-	Scanner *bufio.Scanner
+	// Scanner   *bufio.Scanner
+	BufReader *bufio.Reader
 }
 
 func NewReaderFromSTDIn() *Reader {
@@ -217,7 +204,17 @@ func NewReaderFromSTDIn() *Reader {
 }
 
 func (rd *Reader) ScanFromStandardInput() {
-	rd.Scanner = bufio.NewScanner(os.Stdin)
+	// rd.Scanner = bufio.NewScanner(os.Stdin)
+	rd.BufReader = bufio.NewReader(os.Stdin)
+}
+
+// Read a line from STDIN
+func (rd *Reader) ReadLine() string {
+
+	line, _ := rd.BufReader.ReadString('\n')
+
+	line = strings.TrimSpace(line)
+	return line
 }
 
 type Writer struct {
@@ -272,10 +269,8 @@ var console = RWConsole{
 // --------------------- ------- --------------------- //
 
 func main() {
-	console.Print("Enter a list of integers separated by spaces: ")
 
-	r, _ := console.ReadIntArray(" ")
-	console.PrintIntArray(r, ", ")
+	console.Print("Hello World")
 
 	// Remeber to flush the buffer
 	console.Flush()
