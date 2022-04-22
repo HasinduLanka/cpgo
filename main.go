@@ -273,8 +273,10 @@ var console = RWConsole{
 
 func main() {
 	console.Print("Enter a list of integers separated by spaces: ")
-	for {
-		r, _ := console.ReadIntArray(" ")
-		console.PrintIntArray(r, ", ")
-	}
+
+	r, _ := console.ReadIntArray(" ")
+	console.PrintIntArray(r, ", ")
+
+	// Remeber to flush the buffer
+	console.Flush()
 }
